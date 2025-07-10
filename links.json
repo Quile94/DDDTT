@@ -15,6 +15,4 @@
     "default": "https://event-website.com/info",
     "alt": "https://event-website.com/register"
   }
-  // Bạn có thể thêm hàng trăm cặp liên kết khác ở đây.
-  // Mỗi key (ví dụ: "a", "d", "my_product") là một ID duy nhất cho liên kết của bạn.
 }
