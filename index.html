@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Chuyển hướng thông minh</title>
+<script>
+    // Khi trang tải xong
+    window.onload = function() {
+        // Lấy các tham số từ URL hiện tại
+        const urlParams = new URLSearchParams(window.location.search);
+        // Kiểm tra xem có tham số 'redirect' với giá trị 'c' không
+        const redirectParam = urlParams.get('redirect');
+
+        if (redirectParam === 'c') {
+            // Nếu có, chuyển hướng đến link URL c
+            window.location.href = 'https://www.your-link-c.com'; // THAY THẾ BẰNG LINK URL C THỰC TẾ CỦA BẠN
+        } else {
+            // Nếu không, hoặc tham số không phải 'c', chuyển hướng đến link URL b (mặc định)
+            window.location.href = 'https://www.your-link-b.com'; // THAY THẾ BẰNG LINK URL B THỰC TẾ CỦA BẠN
+        }
+    };
+</script>
+</head>
+<body>
+    <p>Đang chuyển hướng bạn...</p>
+    <noscript>
+        <p>Vui lòng bật JavaScript để tiếp tục.</p>
+        <a href="https://www.your-link-b.com">Đi đến B</a> hoặc <a href="https://www.your-link-c.com">Đi đến C</a>
+    </noscript>
+</body>
+</html>
