@@ -1,18 +1,14 @@
 {
-  "a": {
-    "default": "https://drive.google.com/file/d/1RmnAVA-PgwnOuAkHMUylqwxH9nqbfg0Y/view?usp=sharing",
-    "alt": "https://drive.google.com/file/d/1RmnAVA-PgwnOuAkHMUylqwxH9nqbfg0Y/view?usp=sharing"
+  "qcbh vh": {
+    "default": "https://site2s.com/0LMGfiQPw",
   },
-  "d": {
-    "default": "https://drive.google.com/file/d/1WZb4KnpNWy_lrL7351hGB9lB7Cg0oAEM/view?usp=sharing",
-    "alt": "https://drive.google.com/file/d/1W62GG2kdW8Kcxysj3cgWNXEiONwi3oTa/view?usp=sharing"
+  "qcbh": {
+    "default": "https://site2s.com/jyvWJXP1T",
   },
-  "my_product": {
-    "default": "https://myshop.com/product-page",
-    "alt": "https://myshop.com/special-offer"
+  "mgh vh": {
+    "default": "https://site2s.com/IFrarc",
   },
-  "promo_event": {
-    "default": "https://event-website.com/info",
-    "alt": "https://event-website.com/register"
-  }
+  "mgh": {
+    "default": "https://site2s.com/1VRygJZ4 ",
+  },
 }
