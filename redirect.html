@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Chuyển Hướng Nhanh Chóng</title>
+<script>
+    window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const linkId = urlParams.get('id');   // Lấy ID từ URL, ví dụ: ?id=a
+        const mode = urlParams.get('mode');   // Lấy chế độ, ví dụ: ?mode=alt
+
+        if (!linkId) {
+            // Nếu không có ID, chuyển đến trang lỗi hoặc trang chủ dự phòng
+            window.location.href = 'https://www.google.com/search?q=lỗi+liên+kết+không+có+ID';
+            return;
+        }
+
+        // Tải tệp links.json
+        fetch('links.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                const linkSet = data[linkId]; // Lấy bộ liên kết dựa trên ID
+
+                if (!linkSet) {
+                    // Nếu ID không tồn tại trong links.json
+                    window.location.href = 'https://www.google.com/search?q=liên+kết+không+tìm+thấy';
+                    return;
+                }
+
+                let targetUrl = linkSet.default; // Mặc định là liên kết 'default'
+
+                if (mode === 'alt' && linkSet.alt) {
+                    targetUrl = linkSet.alt; // Nếu có mode=alt và có liên kết thay thế, dùng liên kết đó
+                }
+
+                if (targetUrl) {
+                    window.location.href = targetUrl; // Thực hiện chuyển hướng
+                } else {
+                    // Trường hợp không tìm thấy URL đích nào (hiếm khi xảy ra nếu cấu hình đúng)
+                    window.location.href = 'https://www.google.com/search?q=lỗi+chuyển+hướng+không+xác+định';
+                }
+            })
+            .catch(error => {
+                console.error('Error loading link data or during redirection:', error);
+                window.location.href = 'https://www.google.com/search?q=lỗi+tải+dữ+liệu'; // Lỗi hệ thống
+            });
+    };
+</script>
+</head>
+<body>
+    <p>Đang tải và chuyển hướng bạn...</p>
+    <noscript>
+        <p>Vui lòng bật JavaScript để tiếp tục.</p>
+    </noscript>
+</body>
+</html>
