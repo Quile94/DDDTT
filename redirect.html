@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Đang Chuyển Hướng - Vui Lòng Chờ</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    /* CSS để tạo kiểu cho trang */
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh; /* Chiếm toàn bộ chiều cao màn hình */
+        margin: 0;
+        background-color: #f0f2f5; /* Màu nền nhẹ nhàng */
+        color: #333;
+        text-align: center;
+    }
+
+    .loading-container {
+        background-color: #ffffff;
+        padding: 40px 60px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        max-width: 90%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* CSS cho dòng chữ nổi bật */
+    .headline-container {
+        margin-bottom: 25px; /* Khoảng cách dưới dòng chữ to */
+    }
+
+    .headline-text {
+        font-size: 3.5em; /* Kích thước chữ rất to */
+        color: #e65100; /* Màu cam đậm nổi bật */
+        font-weight: bold;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Đổ bóng nhẹ cho chữ */
+        line-height: 1.2; /* Chiều cao dòng */
+    }
+
+
+    .loading-image {
+        width: 100px; /* Kích thước hình ảnh tải */
+        height: 100px;
+        margin-bottom: 25px;
+    }
+
+    .loading-text {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: #007bff; /* Màu sắc nổi bật cho văn bản */
+    }
+
+    .redirect-message {
+        font-size: 16px;
+        color: #555;
+        margin-bottom: 25px;
+    }
+
+    .progress-bar {
+        width: 80%;
+        height: 8px;
+        background-color: #e0e0e0;
+        border-radius: 4px;
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+
+    .progress-bar-fill {
+        height: 100%;
+        width: 0;
+        background-color: #28a745; /* Màu xanh lá cây */
+        border-radius: 4px;
+        transition: width linear; /* Tạo hiệu ứng chuyển động mượt mà */
+    }
+
+    .link-note {
+        font-size: 14px;
+        color: #888;
+    }
+
+    /* Ẩn nội dung khi JavaScript không bật */
+    noscript {
+        display: block;
+        margin-top: 20px;
+        font-size: 16px;
+        color: #cc0000;
+    }
+</style>
+</head>
+<body>
+    <div class="loading-container">
+        <div class="headline-container">
+            <h1 class="headline-text">Discord Dâm Đồ Diệc Tu Tiên</h1>
+        </div>
+        <img src="image.jpg" alt="Đang tải..." class="loading-image">
+
+        <p class="loading-text">Đang tải và chuyển hướng...</p>
+        <p class="redirect-message">Vui lòng chờ trong giây lát. Bạn sẽ được chuyển đến trang đích.</p>
+
+        <div class="progress-bar">
+            <div id="progressBarFill" class="progress-bar-fill"></div>
+        </div>
+
+        <p class="link-note">Cảm ơn bạn đã sử dụng việt hóa của discord chúng tôi!</p>
+    </div>
+
+    <noscript>
+        <p>Vui lòng bật JavaScript để trang này hoạt động.</p>
+        <p>Nếu bạn không được chuyển hướng tự động, vui lòng kiểm tra URL hoặc thử lại.</p>
+    </noscript>
+
+    <script>
+        // --- Cấu hình chuyển hướng ---
+        const REDIRECT_DELAY_MS = 500; // Thời gian trễ trước khi chuyển hướng (ví dụ: 2000ms = 2 giây)
+        const DEFAULT_FALLBACK_URL = 'https://www.google.com/search?q=lỗi+chuyển+hướng+chung'; // URL dự phòng nếu có lỗi
+        const LINKS_JSON_FILE = 'links.json'; // Tên tệp JSON chứa tất cả liên kết (nằm ở thư mục gốc)
+
+        // --- Logic JavaScript ---
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const linkId = urlParams.get('id'); // Lấy ID từ URL, ví dụ: ?id=qcbh-vh
+
+            const progressBarFill = document.getElementById('progressBarFill');
+
+            // Cập nhật thanh tiến trình trong suốt thời gian trễ
+            if (progressBarFill) {
+                progressBarFill.style.transitionDuration = `${REDIRECT_DELAY_MS / 1000}s`;
+                setTimeout(() => {
+                    progressBarFill.style.width = '100%';
+                }, 50); // Bắt đầu animation sau một chút để đảm bảo DOM sẵn sàng
+            }
+
+            if (!linkId) {
+                console.error('Thiếu tham số ID trong URL.');
+                setTimeout(() => {
+                    window.location.href = DEFAULT_FALLBACK_URL;
+                }, REDIRECT_DELAY_MS);
+                return;
+            }
+
+            // Tải tệp links.json từ thư mục gốc
+            fetch(LINKS_JSON_FILE)
+                .then(response => {
+                    if (!response.ok) {
+                        // Lỗi nếu tệp links.json không được tìm thấy (ví dụ: 404 Not Found)
+                        throw new Error(`Failed to load ${LINKS_JSON_FILE}: ${response.status} ${response.statusText}`);
+                    }
+                    return response.json();
+                })
+                .then(allLinksData => {
+                    const targetUrl = allLinksData[linkId]; // Lấy URL đích dựa trên ID
+
+                    if (!targetUrl) {
+                        console.error(`Không tìm thấy linkId "${linkId}" trong tệp ${LINKS_JSON_FILE}.`);
+                        setTimeout(() => {
+                            window.location.href = DEFAULT_FALLBACK_URL;
+                        }, REDIRECT_DELAY_MS);
+                        return;
+                    }
+
+                    // Thực hiện chuyển hướng sau thời gian trễ đã định
+                    setTimeout(() => {
+                        window.location.href = targetUrl;
+                    }, REDIRECT_DELAY_MS);
+                })
+                .catch(error => {
+                    console.error('Lỗi trong quá trình tải dữ liệu hoặc chuyển hướng:', error);
+                    // Chuyển hướng đến URL dự phòng sau thời gian trễ nếu có lỗi
+                    setTimeout(() => {
+                        window.location.href = DEFAULT_FALLBACK_URL;
+                    }, REDIRECT_DELAY_MS);
+                });
+        };
+    </script>
+</body>
+</html>
